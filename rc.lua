@@ -266,7 +266,7 @@ volbar    = awful.widget.progressbar()
 volwidget = widget({ type = "textbox" })
 -- Progressbar properties
 volbar:set_vertical(true):set_ticks(true)
-volbar:set_height(16):set_width(8):set_ticks_size(2)
+volbar:set_height(16):set_width(5):set_ticks_size(2)
 volbar:set_background_color(beautiful.fg_off_widget)
 volbar:set_gradient_colors({ beautiful.fg_widget,
    beautiful.fg_center_widget, beautiful.fg_end_widget
@@ -475,9 +475,9 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-       awful.util.spawn("amixer -q set Master 1dB+") end),
+       awful.util.spawn("amixer -q set PCM 1dB+") end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-       awful.util.spawn("amixer -q set Master 1dB-") end),
+       awful.util.spawn("amixer -q set PCM 1dB-") end),
     awful.key({ }, "Print", function ()
        awful.util.spawn("gnome-screenshot -i") end),
     awful.key({ modkey }, "d", function ()
