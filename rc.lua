@@ -310,6 +310,12 @@ end
 
 -- }}}
 
+-- {{{ Raid
+raid_widget = widget({ type = "textbox" })
+vicious.register(raid_widget, vicious.widgets.raid, 
+	"Raid:$1/$2 ", 30, "md0")
+-- }}}
+
 
 -- {{{ System tray
 systray = widget({ type = "systray" })
@@ -374,6 +380,7 @@ for s = 1, screen.count() do
         separator, memtext, membar_enable and membar.widget or nil, memicon,
         separator, tzfound and tzswidget or nil,
         cpugraph_enable and cpugraph.widget or nil, cpuwidget, cpuicon,
+        raid_widget,
         current_task,
         ["layout"] = awful.widget.layout.horizontal.rightleft
     }
