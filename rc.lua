@@ -103,7 +103,7 @@ myawesomemenu = {
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "Debian", debian.menu.Debian_menu.Debian },
                                     { "console", terminal },
-                                    { "calc", "gnome-calculator" },
+                                    { "calc", "speedcrunch" },
                                     { "double commander", "doublecmd" },
                                     { "firefox", "firefox" },
                                     { "subl", "subl" },
@@ -439,9 +439,11 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "e", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "e", function () awful.util.spawn("doublecmd") end),
-    awful.key({ modkey,           }, "c", function () awful.util.spawn("gnome-calculator") end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    awful.key({ modkey,           }, "c", function () awful.util.spawn("speedcrunch") end),
+    awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("gnome-terminal -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
+    awful.key({ modkey, "Shift"   }, "b", function () awful.util.spawn("gnome-terminal -e 'vim /home/stelhs/docs/vim-notes/b.txt'") end),
+--    awful.key({ modkey, "Control" }, "r", awesome.restart),
+--    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
     awful.key({ modkey,           }, "Left",  function () awful.tag.incmwfact(-0.05)    end),
     awful.key({ modkey,           }, "Right", function () awful.tag.incmwfact( 0.05)    end),
