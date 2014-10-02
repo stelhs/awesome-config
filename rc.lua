@@ -477,9 +477,11 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-       awful.util.spawn("amixer -q set PCM 1dB+") end),
+       awful.util.spawn("amixer -q set PCM 1dB+")
+       awful.util.spawn("amixer -q set Master 100%") end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-       awful.util.spawn("amixer -q set PCM 1dB-") end),
+       awful.util.spawn("amixer -q set PCM 1dB-") 
+       awful.util.spawn("amixer -q set Master 100%") end),
     awful.key({ }, "Print", function ()
        awful.util.spawn("gnome-screenshot -i") end),
     awful.key({ modkey }, "d", function ()
