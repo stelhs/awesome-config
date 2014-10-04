@@ -357,7 +357,15 @@ end
 -- {{{ Raid
 raid_widget = widget({ type = "textbox" })
 vicious.register(raid_widget, vicious.widgets.raid, 
-	"Raid:$1/$2 ", 30, "md0")
+	function (widget, args)
+		local msg
+		msg = "Raid:" .. args["active"] .. "/" .. args["assigned"]
+		if args["resync"] then
+			msg = msg .. " Resync " .. args["resync"] .. "% "
+		end
+		return msg
+	end
+	, 30, "md0")
 -- }}}
 
 

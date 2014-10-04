@@ -33,24 +33,31 @@ local function worker(format, warg)
 
     -- Linux manual page: md(4)
     for line in io.lines("/proc/mdstat") do
-        if mddev[warg]["found"] then
-            local updev = string.match(line, "%[[_U]+%]")
-
-            for i in string.gmatch(updev, "U") do
-                mddev[warg]["active"] = mddev[warg]["active"] + 1
-            end
-
-            break
-        elseif string.sub(line, 1, string.len(warg)) == warg then
+        if string.sub(line, 1, string.len(warg)) == warg then
             mddev[warg]["found"] = true
 
             for i in string.gmatch(line, "%[[%d]%]") do
                 mddev[warg]["assigned"] = mddev[warg]["assigned"] + 1
             end
-        end
-    end
+        elseif mddev[warg]["found"] then
+            if line == "" then break end
 
-    return {mddev[warg]["assigned"], mddev[warg]["active"]}
+            local updev = string.match(line, "%[[_U]+%]")
+            if updev then
+                for i in string.gmatch(updev, "U") do
+                    mddev[warg]["active"] = mddev[warg]["active"] + 1
+                end
+            end
+
+            local resync = string.match(line, "resync = ([%d%.]+)")
+            if resync then
+                mddev[warg]["resync"] = resync
+            end
+        end
+
+    end
+    
+    return mddev[warg]
 end
 -- }}}
 
