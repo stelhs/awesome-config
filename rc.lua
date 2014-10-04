@@ -362,6 +362,7 @@ vicious.register(raid_widget, vicious.widgets.raid,
 		msg = "Raid:" .. args["active"] .. "/" .. args["assigned"]
 		if args["resync"] then
 			msg = msg .. " Resync " .. args["resync"] .. "% "
+			msg = msg .. args["curr_speed"] .. "/" .. args["max_speed"] .. "K/sec "
 		end
 		return msg
 	end
