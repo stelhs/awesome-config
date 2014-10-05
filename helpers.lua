@@ -60,4 +60,46 @@ function require_safe(lib)
 	end
 end
 
+function dump(var, level)
+    level = level or 0
+    local output = ""
+
+    if var == nil then 
+        output = "(nil)\n"
+        if level == 0 then
+    		naughty.notify({ text=output})
+	    end
+    	return output
+    end
+
+    if type(var) ~= 'table' then
+        output = output .. type(var) .. ": " .. tostring(var) .. "\n"
+	    if level == 0 then
+	    	naughty.notify({ text=output})
+	    end
+        return output
+    end
+
+    output = output .. "Array\n"
+    for i = 1,level do output = output .. "\t" end
+    output = output .. "{\n"
+    for key,value in pairs(var) do
+        for i = 1,level do output = output .. "\t" end
+        output = output .. "'" .. key .. "' => "
+        if type(value) == 'table' then
+            output = output .. dump(value, level + 1)
+        else
+            output = output .. "'" .. tostring(value) .. "'\n"
+        end
+    end
+    for i = 1,level do output = output .. "\t" end
+    output = output .. "}\n"
+
+    if level == 0 then
+    	naughty.notify({ text=output })
+    end
+    return output
+end
+
+
 -- }}}

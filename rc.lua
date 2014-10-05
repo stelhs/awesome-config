@@ -23,63 +23,18 @@ require("helpers") -- helpers.lua
 require("debian.menu")
 
 
--- {{{ Debug function dump 
-function dump(var, level)
-    level = level or 0
-    local output = ""
 
-    if var == nil then 
-        output = "(nil)\n"
-        if level == 0 then
-    		naughty.notify({ text=output})
-	    end
-    	return output
-    end
-
-    if type(var) ~= 'table' then
-        output = output .. type(var) .. ": " .. tostring(var) .. "\n"
-	    if level == 0 then
-	    	naughty.notify({ text=output})
-	    end
-        return output
-    end
-
-    output = output .. "Array\n"
-    for i = 1,level do output = output .. "\t" end
-    output = output .. "{\n"
-    for key,value in pairs(var) do
-        for i = 1,level do output = output .. "\t" end
-        output = output .. "'" .. key .. "' => "
-        if type(value) == 'table' then
-            output = output .. dump(value, level + 1)
-        else
-            output = output .. "'" .. tostring(value) .. "'\n"
-        end
-    end
-    for i = 1,level do output = output .. "\t" end
-    output = output .. "}\n"
-
-    if level == 0 then
-    	naughty.notify({ text=output })
-    end
-    return output
-end
--- }}}
-
--- {{{ Default configuration
+-- {{{ Configuration
 altkey = "Mod1"
 modkey = "Mod4" -- your windows/apple key
 
-terminal = whereis_app('urxvtcd') and 'urxvtcd' or 'x-terminal-emulator' -- also accepts full path
-editor = os.getenv("EDITOR") or "vim"
+terminal = 'gnome-terminal'
+editor = "subl"
 editor_cmd = terminal .. " -e " .. editor
-
-wallpaper_app = "feh" -- if you want to check for app before trying
-wallpaper_dir = os.getenv("HOME") .. "/Pictures/Wallpaper" -- wallpaper dir
 
 -- taglist numerals
 --- arabic, chinese, {east|persian}_arabic, roman, thai, random
-taglist_numbers = "chinese" -- we support arabic (1,2,3...),
+taglist_numbers = "arabic" -- we support arabic (1,2,3...),
 
 cpugraph_enable = true -- Show CPU graph
 cputext_format = " $1%" -- %1 average cpu, %[2..] every other thread individually
@@ -90,16 +45,10 @@ memtext_format = " $1%" -- %1 percentage, %2 used %3 total %4 free
 date_format = "%a %d.%m.%Y %H:%M" -- default value. refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
 
 networks = {'eth0', 'wlan0'} -- add your devices network interface here netwidget, only shows first one thats up.
-
-require_safe('personal')
-
--- Create personal.lua in this same directory to override these defaults
-
-
 -- }}}
 
+
 -- {{{ Variable definitions
-local wallpaper_cmd = "find " .. wallpaper_dir .. " -type f -name '*.jpg'  -print0 | shuf -n1 -z | xargs -0 feh --bg-scale"
 local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
@@ -122,15 +71,8 @@ layouts = {
 -- {{{ Tags
 
 -- Taglist numerals
-taglist_numbers_langs = { 'arabic', 'chinese', 'traditional_chinese', 'east_arabic', 'persian_arabic', }
 taglist_numbers_sets = {
 	arabic={ 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-	chinese={"一", "二", "三", "四", "五", "六", "七", "八", "九", "十"},
-	traditional_chinese={"壹", "貳", "叄", "肆", "伍", "陸", "柒", "捌", "玖", "拾"},
-	east_arabic={'١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'}, -- '٠' 0
-	persian_arabic={'٠', '١', '٢', '٣', '۴', '۵', '۶', '٧', '٨', '٩'},
-	roman={'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'},
-	thai={'๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙', '๑๐'},
 }
 -- }}}
 
@@ -159,20 +101,10 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 -- }}}
 
-
+--{{{ Tags
 tags = {}
 for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-      --tags[s] = awful.tag({"一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}, s, layouts[1])
-      --tags[s] = awful.tag(taglist_numbers_sets[taglist_numbers], s, layouts[1])
-	if taglist_numbers == 'random' then
-		math.randomseed(os.time())
-		local taglist = taglist_numbers_sets[taglist_numbers_langs[math.random(table.getn(taglist_numbers_langs))]]
-		tags[s] = awful.tag(taglist, s, layouts[1])
-	else
-		tags[s] = awful.tag(taglist_numbers_sets[taglist_numbers], s, layouts[1])
-	end
-    --tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
 end
 -- }}}
 
@@ -337,23 +269,6 @@ datewidget = widget({ type = "textbox" })
 vicious.register(datewidget, vicious.widgets.date, date_format, 61)
 -- }}}
 
--- {{{ mpd
-
-if whereis_app('curl') and whereis_app('mpd') then
-	mpdwidget = widget({ type = "textbox" })
-	vicious.register(mpdwidget, vicious.widgets.mpd,
-		function (widget, args)
-			if args["{state}"] == "Stop" or args["{state}"] == "Pause" or args["{state}"] == "N/A"
-				or (args["{Artist}"] == "N/A" and args["{Title}"] == "N/A") then return ""
-			else return '<span color="white">музыка:</span> '..
-			     args["{Artist}"]..' - '.. args["{Title}"]
-			end
-		end
-	)
-end
-
--- }}}
-
 -- {{{ Raid
 raid_widget = widget({ type = "textbox" })
 vicious.register(raid_widget, vicious.widgets.raid, 
@@ -459,8 +374,6 @@ clientbuttons = awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
---  awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
---  awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "w",
@@ -473,13 +386,10 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    --awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "w", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "q", function () awful.client.swap.byidx( -1)    end),
---    awful.key({ modkey, "Control" }, "s", function () awful.screen.focus_relative( 1) end),
---    awful.key({ modkey, "Control" }, "a", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -490,11 +400,11 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    awful.key({ modkey,           }, "e", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Shift"   }, "e", function () awful.util.spawn("doublecmd") end),
-    awful.key({ modkey,           }, "c", function () awful.util.spawn("speedcrunch") end),
-    awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("gnome-terminal -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
-    awful.key({ modkey, "Shift"   }, "b", function () awful.util.spawn("gnome-terminal -e 'vim /home/stelhs/docs/vim-notes/b.txt'") end),
+    awful.key({ modkey,           }, "e", function () exec(terminal) end),
+    awful.key({ modkey, "Shift"   }, "e", function () exec("doublecmd") end),
+    awful.key({ modkey,           }, "c", function () exec("speedcrunch") end),
+    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
+    awful.key({ modkey, "Shift"   }, "b", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/b.txt'") end),
 --    awful.key({ modkey, "Control" }, "r", awesome.restart),
 --    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
@@ -530,13 +440,13 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-       awful.util.spawn("amixer -q set PCM 1dB+")
-       awful.util.spawn("amixer -q set Master 100%") end),
+       exec("amixer -q set PCM 1dB+")
+       exec("amixer -q set Master 100%") end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-       awful.util.spawn("amixer -q set PCM 1dB-") 
-       awful.util.spawn("amixer -q set Master 100%") end),
+       exec("amixer -q set PCM 1dB-") 
+       exec("amixer -q set Master 100%") end),
     awful.key({ }, "Print", function ()
-       awful.util.spawn("gnome-screenshot -i") end),
+       exec("gnome-screenshot -i") end),
     awful.key({ modkey }, "d", function ()
        if instance then
            instance:hide()
@@ -684,29 +594,6 @@ end
 -- }}}
 -- }}}
 
-x = 0
 
--- setup the timer
-mytimer = timer { timeout = x }
-mytimer:add_signal("timeout", function()
-
-  -- tell awsetbg to randomly choose a wallpaper from your wallpaper directory
-  if file_exists(wallpaper_dir) and whereis_app('feh') then
-	  os.execute(wallpaper_cmd)
-  end
-  -- stop the timer (we don't need multiple instances running at the same time)
-  mytimer:stop()
-
-  -- define the interval in which the next wallpaper change should occur in seconds
-  -- (in this case anytime between 10 and 20 minutes)
-  x = math.random( 600, 1200)
-
-  --restart the timer
-  mytimer.timeout = x
-  mytimer:start()
-end)
-
--- initial start when rc.lua is first run
-mytimer:start()
 
 require_safe('autorun')
