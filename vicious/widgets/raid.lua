@@ -49,7 +49,7 @@ local function worker(format, warg)
                 end
             end
 
-            local resync = string.match(line, "resync = ([%d%.]+)")
+            local resync = string.match(line, "resync = [ ]?([%d%.]+)")
             if resync then
                 local curr_speed = string.match(line, "speed=([%d]+)")
                 mddev[warg]["resync"] = resync
