@@ -29,6 +29,7 @@ local function worker(format)
             elseif k == "Cached"    then mem.buf.c = math.floor(v/1024)
             elseif k == "SwapTotal" then mem.swp.t = math.floor(v/1024)
             elseif k == "SwapFree"  then mem.swp.f = math.floor(v/1024)
+            elseif k == "Active"    then mem.active = math.floor(v/1024)
             end
         end
     end
@@ -37,7 +38,7 @@ local function worker(format)
     mem.free  = mem.buf.f + mem.buf.b + mem.buf.c
     mem.inuse = mem.total - mem.free
     mem.bcuse = mem.total - mem.buf.f
-    mem.usep  = math.floor(mem.inuse / mem.total * 100)
+    mem.usep  = math.floor(mem.active / mem.total * 100)
     -- Calculate swap percentage
     mem.swp.inuse = mem.swp.t - mem.swp.f
     mem.swp.usep  = math.floor(mem.swp.inuse / mem.swp.t * 100)
