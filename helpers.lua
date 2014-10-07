@@ -68,6 +68,7 @@ function dump(var, level)
         output = "(nil)\n"
         if level == 0 then
     		naughty.notify({ text=output})
+    		io.write(output)
 	    end
     	return output
     end
@@ -76,6 +77,7 @@ function dump(var, level)
         output = output .. type(var) .. ": " .. tostring(var) .. "\n"
 	    if level == 0 then
 	    	naughty.notify({ text=output})
+	    	io.write(output)
 	    end
         return output
     end
@@ -97,6 +99,7 @@ function dump(var, level)
 
     if level == 0 then
     	naughty.notify({ text=output })
+    	io.write(output)
     end
     return output
 end
