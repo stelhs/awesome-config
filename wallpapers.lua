@@ -14,7 +14,7 @@ mytimer:add_signal("timeout", function()
 	  os.execute("cat /tmp/wallpaper_list | shuf -n1 -z | xargs -0 feh --bg-scale")
   end
   mytimer:stop()
-  mytimer.timeout = math.random( 60, 120)
+  mytimer.timeout = math.random( 600, 1200)
   mytimer:start()
 end)
 mytimer:start()
