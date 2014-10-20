@@ -134,6 +134,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "e", function () exec(terminal) end),
     awful.key({ modkey, "Shift"   }, "e", function () exec("doublecmd") end),
     awful.key({ modkey,           }, "c", function () exec("speedcrunch") end),
+    awful.key({ modkey, "Shift"   }, "f", function () exec("firefox") end),
     awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
     awful.key({ modkey, "Shift"   }, "b", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/b.txt'") end),
 --    awful.key({ modkey, "Control" }, "r", awesome.restart),
@@ -266,7 +267,7 @@ awful.rules.rules = {
     { rule = { class = "ROX-Filer" },   properties = { floating = true } },
     { rule = { class = "Chromium-browser" },   properties = { floating = false } },
     { rule = { class = "Google-chrome" },   properties = { floating = false } },
-    { rule = { class = "Firefox" },   properties = { floating = false, tag = tags[1][2] } },
+--    { rule = { class = "Firefox" },   properties = { floating = false, tag = tags[1][2] } },
     { rule = { class = "Skype" },   properties = { floating = false, tag = tags[1][1] } },
     { rule = { class = "Qmmp" },   properties = { floating = true, tag = tags[1][6] } },
 }
