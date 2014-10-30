@@ -137,6 +137,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "f", function () exec("firefox") end),
     awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
     awful.key({ modkey, "Shift"   }, "b", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/b.txt'") end),
+
+    -- Enable russian key
+    awful.key({ }, "Alt_R", function () exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 1") end),
+    -- Enable english key
+--    awful.key({ }, "ISO_First_Group",  function () exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 2") end),
+
 --    awful.key({ modkey, "Control" }, "r", awesome.restart),
 --    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
@@ -265,6 +271,7 @@ awful.rules.rules = {
       border_color = beautiful.border_normal }
     },
     { rule = { class = "ROX-Filer" },   properties = { floating = true } },
+    { rule = { class = "Plugin-container" },   properties = { floating = true, border_width = 0 } },
     { rule = { class = "Chromium-browser" },   properties = { floating = false } },
     { rule = { class = "Google-chrome" },   properties = { floating = false } },
 --    { rule = { class = "Firefox" },   properties = { floating = false, tag = tags[1][2] } },
