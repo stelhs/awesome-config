@@ -167,6 +167,8 @@ globalkeys = awful.util.table.join(
          wibox[mouse.screen].visible = not wibox[mouse.screen].visible
     end),
 
+    awful.key({ modkey }, "p", function () sexec("xrandr --output LVDS-0 --auto --output VGA-0 --auto; sleep 1; xrandr --output LVDS-0 --primary --right-of VGA-0") end),
+
     -- Prompt
     awful.key({ modkey },            "r",     function () promptbox[mouse.screen]:run() end),
 
@@ -205,6 +207,7 @@ clientkeys = awful.util.table.join(
     end),
     awful.key({ modkey,           }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
+    awful.key({ modkey,           }, "`",      function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "m",
         function (c)
