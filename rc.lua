@@ -73,7 +73,8 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "subl", "subl" },
                                     { "pinta", "pinta" },
                                     { "splan", "wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/Splan70/splan70.exe\"" },
-                                    { "diptrace", "wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/DipTrace/Launcher.exe\"" }
+                                    { "diptrace", "wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/DipTrace/Launcher.exe\"" },
+                                    { "eclipse", "/opt/eclipse/eclipse" }
                                   }
                         })
 
@@ -135,7 +136,7 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "e", function () exec(terminal) end),
     awful.key({ modkey, "Shift"   }, "e", function () exec("doublecmd") end),
-    awful.key({ modkey,           }, "c", function () exec("speedcrunch") end),
+    awful.key({ modkey,           }, "c", function () exec(terminal .. " -e 'python'") end),
     awful.key({ modkey, "Shift"   }, "f", function () exec("firefox") end),
 --    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
     awful.key({ modkey, "Shift"   }, "v", function () exec("subl --project ~/docs/notes/notes.sublime-project") end),
