@@ -139,7 +139,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "c", function () exec(terminal .. " -e 'python'") end),
     awful.key({ modkey, "Shift"   }, "f", function () exec("firefox") end),
 --    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
-    awful.key({ modkey, "Shift"   }, "v", function () exec("subl --project ~/docs/notes/notes.sublime-project") end),
+    awful.key({ modkey, "Shift"   }, "v", function () exec("subl --project /home/stelhs/docs/subl-notes/notes.sublime-project") end),
 
     -- Enable russian key
     awful.key({ }, "Alt_R", function () exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 1") end),
