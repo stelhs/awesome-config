@@ -136,7 +136,7 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "e", function () exec(terminal) end),
     awful.key({ modkey, "Shift"   }, "e", function () exec("doublecmd") end),
-    awful.key({ modkey,           }, "c", function () exec(terminal .. " -e 'python'") end),
+    awful.key({ modkey, "Shift"   }, "c", function () exec(terminal .. " -e 'python'") end),
     awful.key({ modkey, "Shift"   }, "f", function () exec("firefox") end),
 --    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
     awful.key({ modkey, "Shift"   }, "v", function () exec("subl --project ~/docs/notes/notes.sublime-project") end),
@@ -202,7 +202,7 @@ globalkeys = awful.util.table.join(
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    awful.key({ modkey,           }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey,           }, "t",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Shift" }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
