@@ -142,7 +142,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "v", function () exec("subl --project /home/stelhs/docs/subl-notes/notes.sublime-project") end),
 
     -- Enable russian key
-    awful.key({ }, "Alt_R", function () exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 1") end),
+    awful.key({ },
+              "Alt_R",
+              function ()
+                  exec("setxkbmap -layout 'us,ru' -option grp:shift_caps_switch,grp_led:caps")
+                  exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 1") 
+              end),
     -- Enable english key
 --    awful.key({ }, "ISO_First_Group",  function () exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 2") end),
 
