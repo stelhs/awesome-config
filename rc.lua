@@ -139,12 +139,14 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "c", function () exec(terminal .. " -e 'python'") end),
     awful.key({ modkey, "Shift"   }, "f", function () exec("firefox") end),
 --    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
-    awful.key({ modkey, "Shift"   }, "v", function () exec("subl --project /home/stelhs/docs/subl-notes/notes.sublime-project") end),
+    awful.key({ modkey, "Shift"   }, "v", function () exec("mono /home/stelhs/utils/smath/SMathStudio_Desktop.exe") end),
+    awful.key({ modkey, "Shift"   }, "b", function () exec("subl /home/stelhs/docs/subl-notes/notes.txt") end),
 
     -- Enable russian key
     awful.key({ },
               "Alt_R",
               function ()
+                  exec("setxkbmap -option")
                   exec("setxkbmap -layout 'us,ru' -option grp:shift_caps_switch,grp_led:caps")
                   exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 1") 
               end),
