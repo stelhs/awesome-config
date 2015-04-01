@@ -140,7 +140,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "f", function () exec("firefox") end),
 --    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
     awful.key({ modkey, "Shift"   }, "v", function () exec("mono /home/stelhs/tools/smath/SMathStudio_Desktop.exe") end),
-    awful.key({ modkey, "Shift"   }, "b", function () exec("subl /home/stelhs/docs/subl-notes/notes.txt") end),
+    awful.key({ modkey, "Shift"   }, "b", function () exec("subl -n /home/stelhs/docs/subl-notes/notes.txt") end),
 
     -- Enable russian key
     awful.key({ },
