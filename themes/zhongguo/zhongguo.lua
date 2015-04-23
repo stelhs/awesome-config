@@ -66,7 +66,7 @@ theme.mouse_finder_color = theme.fg_urgent
 -- theme.[taglist|tasklist]_[bg|fg]_[focus|urgent]
 theme.taglist_bg_focus  = theme.bg_focus
 theme.taglist_bg_normal = theme.bg_normal
-theme.taglist_bg_urgent = theme.bg_normal
+theme.taglist_bg_urgent = theme.fg_urgent
 theme.taglist_fg_urgent = '#FFFFFF'
 -- theme.taglist_bg_urgent = '#CC9393'
 

@@ -44,11 +44,14 @@ beautiful.init(awful.util.getdir("config") .. "/themes/zhongguo/zhongguo.lua")
 -- Window management layouts
 layouts = {
   awful.layout.suit.tile,
-  awful.layout.suit.tile.bottom,
-  awful.layout.suit.tile.top,
-  --awful.layout.suit.fair,
-  awful.layout.suit.max,
-  awful.layout.suit.magnifier,
+--  awful.layout.suit.fair,
+--  awful.layout.suit.fair.horizontal,
+  awful.layout.suit.tile.bottom
+--  awful.layout.suit.spiral.dwindle,
+  --awful.layout.suit.spiral,
+  --awful.layout.suit.tile.top,
+  --awful.layout.suit.max,
+  --awful.layout.suit.magnifier,
   --awful.layout.suit.floating
 }
 -- }}}
@@ -146,10 +149,16 @@ globalkeys = awful.util.table.join(
     awful.key({ },
               "Alt_R",
               function ()
-                  exec("setxkbmap -option")
-                  exec("setxkbmap -layout 'us,ru' -option grp:shift_caps_switch,grp_led:caps")
+  --                exec("setxkbmap -option")
+--                  exec("setxkbmap -layout 'us,ru' -option grp:shift_caps_switch,grp_led:caps")
                   exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 1") 
               end),
+    awful.key({ },
+             "Shift_R",
+             function () 
+                  exec("setxkbmap -option")
+                  exec("setxkbmap -layout 'us,ru' -option grp:shift_caps_switch,grp_led:caps")
+             end),
     -- Enable english key
 --    awful.key({ }, "ISO_First_Group",  function () exec("qdbus ru.gentoo.KbddService /ru/gentoo/KbddService  ru.gentoo.kbdd.set_layout 2") end),
 
