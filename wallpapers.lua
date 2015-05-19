@@ -1,6 +1,7 @@
 
 wallpaper_dirs = {"'/home/stelhs/MyPhoto/Объекты/'",
-                  "'/home/stelhs/MyPhoto/Походы/'"}
+                  "'/home/stelhs/MyPhoto/Походы/'",
+                  "'/home/stelhs/MyPhoto/Поездки/'"}
 
 os.execute("rm /tmp/wallpaper_list")
 for _,path in pairs(wallpaper_dirs) do
