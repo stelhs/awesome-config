@@ -139,7 +139,8 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "e", function () exec(terminal) end),
     awful.key({ modkey, "Shift"   }, "e", function () exec("doublecmd") end),
-    awful.key({ modkey, "Shift"   }, "c", function () exec(terminal .. " -e 'python'") end),
+    awful.key({ modkey, "Shift"   }, "c", function () exec(terminal .. " -e 'python -i /home/stelhs/.calc.py'") end),
+    awful.key({ modkey, "Shift"   }, "n", function () exec(terminal .. " -e 'ping google.com'") end),
     awful.key({ modkey, "Shift"   }, "f", function () exec("firefox") end),
 --    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
     awful.key({ modkey, "Shift"   }, "v", function () exec("mono /home/stelhs/tools/smath/SMathStudio_Desktop.exe") end),
