@@ -188,6 +188,7 @@ globalkeys = awful.util.table.join(
     end),
 
     awful.key({ modkey }, "p", function () sexec("xrandr --output LVDS-0 --auto --output VGA-0 --auto; sleep 1; xrandr --output LVDS-0 --primary --right-of VGA-0") end),
+    awful.key({ modkey }, "l", function () sexec("xrandr --output LVDS-0 --auto --output VGA-0 --auto; sleep 1; xrandr --output VGA-0 --primary") end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () promptbox[mouse.screen]:run() end),
