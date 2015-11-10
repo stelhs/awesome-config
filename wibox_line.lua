@@ -138,7 +138,7 @@ dateicon.image = image(beautiful.widget_date)
 -- Initialize widget
 datewidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(datewidget, vicious.widgets.date, "%d.%m.%Y %H:%M", 61)
+vicious.register(datewidget, vicious.widgets.date, "%a %d.%m.%Y %H:%M", 61)
 -- }}}
 
 -- {{{ Raid
