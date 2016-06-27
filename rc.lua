@@ -182,7 +182,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-    awful.key({ modkey, "Shift"   }, "i",     function () wallpapers_update() end),
+    awful.key({ modkey, "Shift"   }, "s",     function () wallpapers_update() end),
 
     awful.key({ modkey }, "b", function ()
          wibox[mouse.screen].visible = not wibox[mouse.screen].visible
