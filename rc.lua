@@ -145,6 +145,8 @@ globalkeys = awful.util.table.join(
 --    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
     awful.key({ modkey, "Shift"   }, "v", function () exec("mono /home/stelhs/tools/smath/SMathStudio_Desktop.exe") end),
     awful.key({ modkey, "Shift"   }, "b", function () exec("subl -n /home/stelhs/docs/subl-notes/notes.txt") end),
+    awful.key({ modkey,           }, ",", function () exec("xbacklight -dec 10") end),
+    awful.key({ modkey,           }, ".", function () exec("xbacklight -inc 10") end),
 
     -- Enable russian key
     awful.key({ },
@@ -207,6 +209,12 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioLowerVolume", function ()
        exec("amixer -q set PCM 1dB-") 
        exec("amixer -q set Master 100%") end),
+    awful.key({ }, "XF86AudioPrev", function ()
+       exec("qmmp --previous") end),
+    awful.key({ }, "XF86AudioNext", function ()
+       exec("qmmp --next") end),
+    awful.key({ }, "XF86AudioPlay", function ()
+       exec("qmmp -t") end),
     awful.key({ }, "Print", function ()
        exec("gnome-screenshot -i") end),
     awful.key({ modkey }, "d", function ()
@@ -302,6 +310,7 @@ awful.rules.rules = {
 --    { rule = { class = "Firefox" },   properties = { floating = false, tag = tags[1][2] } },
     { rule = { class = "Skype" },   properties = { floating = false, tag = tags[1][1] } },
     { rule = { class = "Qmmp" },   properties = { floating = true, tag = tags[1][6] } },
+    { rule = { class = "Firefox", instance = "startup" }, properties = { floating = false, tag = tags[1][2]} },
 }
 -- }}}
 

@@ -4,6 +4,8 @@
 --run_once("redshift", "-o -l 0:0 -b 0.5 -t 6500:6500") -- brightness
 -- run_once("ibus-daemon", "--xim") -- ibus
 -- run_once(os.getenv("HOME") .. "/.dropbox-dist/dropboxd") -- dropbox
+
+run_once("xset r rate 200 60")
 run_once("nm-applet") -- networking
 
 -- run_once("wmname", "LG3D") -- java fix
@@ -23,9 +25,9 @@ run_once("sudo xfce4-power-manager")
 run_once("parcellite")
 --run_once("setxkbmap", "-layout 'us,ru' -option grp:shift_caps_switch,grp_led:caps")
 --run_once("awsetbg /home/dg/Pictures/Wallpaper/Savannah_Lilian_Blot_by_a_Blot_on_the_landscape.jpg")
-run_once("goldendict")
+--run_once("goldendict")
 run_once("skype")
 run_once("/opt/telegram/Telegram")
-run_once("firefox")
+run_once("firefox", "startup", nil, 1)
 run_once("qmmp")
 
