@@ -93,7 +93,7 @@ netwidget = widget({ type = "textbox" })
 -- Register widget
 vicious.register(netwidget, vicious.widgets.net,
 	function (widget, args)
-		for _,device in pairs({'eth0', 'wlan0'}) do
+		for _,device in pairs({'eth4', 'wlan1'}) do
 			if tonumber(args["{".. device .." carrier}"]) > 0 then
 				netwidget.found = true
 				dnicon.image = image(beautiful.widget_net)

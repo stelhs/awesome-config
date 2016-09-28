@@ -28,6 +28,6 @@ run_once("parcellite")
 --run_once("goldendict")
 run_once("skype")
 run_once("/opt/telegram/Telegram")
-run_once("firefox", "startup", nil, 1)
+--run_once("firefox", nil, nil, 1)
 run_once("qmmp")
 

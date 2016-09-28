@@ -190,8 +190,8 @@ globalkeys = awful.util.table.join(
          wibox[mouse.screen].visible = not wibox[mouse.screen].visible
     end),
 
-    awful.key({ modkey }, "p", function () sexec("xrandr --output LVDS-0 --auto --output VGA-0 --auto; sleep 1; xrandr --output LVDS-0 --primary --right-of VGA-0") end),
-    awful.key({ modkey }, "l", function () sexec("xrandr --output LVDS-0 --auto --output VGA-0 --auto; sleep 1; xrandr --output VGA-0 --primary") end),
+    awful.key({ modkey }, "p", function () sexec("xrandr --output LVDS1 --auto --output HDMI1 --auto; sleep 1; xrandr --output LVDS1 --primary --right-of HDMI1") end),
+    awful.key({ modkey }, "l", function () sexec("xrandr --output LVDS1 --auto: --output HDMI1 --auto; sleep 1; xrandr --output HDMI1 --primary") end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () promptbox[mouse.screen]:run() end),
