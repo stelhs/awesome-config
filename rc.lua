@@ -145,6 +145,8 @@ globalkeys = awful.util.table.join(
 --    awful.key({ modkey, "Shift"   }, "v", function () exec(terminal .. " -e 'vim /home/stelhs/docs/vim-notes/v.txt'") end),
     awful.key({ modkey, "Shift"   }, "v", function () exec("mono /home/stelhs/tools/smath/SMathStudio_Desktop.exe") end),
     awful.key({ modkey, "Shift"   }, "b", function () exec("subl -n /home/stelhs/docs/subl-notes/notes.txt") end),
+    awful.key({ modkey,           }, "F6", function () exec("synclient TouchpadOff=1") end),
+    awful.key({ modkey, "Shift"   }, "F6", function () exec("synclient TouchpadOff=0") end),
     awful.key({ modkey,           }, ",", function () exec("xbacklight -dec 10") end),
     awful.key({ modkey,           }, ".", function () exec("xbacklight -inc 10") end),
 
