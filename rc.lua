@@ -217,6 +217,10 @@ globalkeys = awful.util.table.join(
        exec("qmmp --next") end),
     awful.key({ }, "XF86AudioPlay", function ()
        exec("qmmp -t") end),
+    awful.key({ "Control" }, "XF86AudioPrev", function ()
+       exec("qmmp --seek-bwd 5") end),
+    awful.key({ "Control" }, "XF86AudioNext", function ()
+       exec("qmmp --seek-fwd 5") end),
     awful.key({ }, "Print", function ()
        exec("gnome-screenshot -i") end),
     awful.key({ modkey }, "d", function ()
