@@ -205,12 +205,23 @@ globalkeys = awful.util.table.join(
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
               end),
+
     awful.key({ }, "XF86AudioRaiseVolume", function ()
        exec("amixer -q set PCM 1dB+")
-       exec("amixer -q set Master 100%") end),
+       exec("amixer -q set Master 100%")
+       exec("amixer -q set 'Speaker Boost' 100%")
+       exec("amixer -q set PCM unmute")
+       exec("amixer -q set Master unmute")
+       exec("amixer -q set 'Speaker Boost' unmute") end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-       exec("amixer -q set PCM 1dB-") 
-       exec("amixer -q set Master 100%") end),
+       exec("amixer -q set PCM 1dB-")
+       exec("amixer -q set Master 100%")
+       exec("amixer -q set 'Speaker Boost' 100%")
+       exec("amixer -q set PCM unmute")
+       exec("amixer -q set Master unmute")
+       exec("amixer -q set 'Speaker Boost' unmute") end),
+    awful.key({ }, "XF86AudioMute", function ()
+       exec("amixer -q set Master mute") end),
     awful.key({ }, "XF86AudioPrev", function ()
        exec("qmmp --previous") end),
     awful.key({ }, "XF86AudioNext", function ()
@@ -223,6 +234,7 @@ globalkeys = awful.util.table.join(
        exec("qmmp --seek-fwd 5") end),
     awful.key({ }, "Print", function ()
        exec("gnome-screenshot -i") end),
+
     awful.key({ modkey }, "d", function ()
        if instance then
            instance:hide()
