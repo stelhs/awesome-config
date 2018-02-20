@@ -9,7 +9,7 @@ for _,path in pairs(wallpaper_dirs) do
 end
 
 wallpapers_timer = timer { timeout = 0 }
-wallpapers_timer:add_signal("timeout", function()
+wallpapers_timer:connect_signal("timeout", function()
   if whereis_app('feh') then
 	  os.execute("cat /tmp/wallpaper_list | shuf -n1 -z | xargs -0 feh --bg-scale")
   end

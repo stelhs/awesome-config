@@ -1,5 +1,8 @@
 -- {{{ Helper functions
 
+local awful = require("awful")
+
+
 function run_once(prg,arg_string,pname,screen)
 	if not prg then
 		do return nil end

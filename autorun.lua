@@ -5,6 +5,13 @@
 -- run_once("ibus-daemon", "--xim") -- ibus
 -- run_once(os.getenv("HOME") .. "/.dropbox-dist/dropboxd") -- dropbox
 
+run_once("amixer -q set PCM 50%")
+run_once("amixer -q set Master 100%")
+run_once("amixer -q set 'Speaker Boost' 100%")
+run_once("amixer -q set PCM unmute")
+run_once("amixer -q set Master unmute")
+run_once("amixer -q set 'Speaker Boost' unmute")
+
 run_once("xset r rate 200 60")
 run_once("nm-applet") -- networking
 
