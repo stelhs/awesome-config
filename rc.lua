@@ -139,6 +139,8 @@ root.buttons(awful.util.table.join(
 -- }}}
 
 audio_volume = 50
+mute = 0;
+
 function audio_volume_set(audio_volume)
   cmd = "amixer -q set Master " .. audio_volume .. "%"
    awful.util.spawn(cmd)
@@ -147,8 +149,6 @@ function audio_volume_set(audio_volume)
   awful.util.spawn("amixer -q set PCM 100%")
   awful.util.spawn("amixer -q set 'Mic Boost' 100%")
 end
-
-mute = 0;
 
 function mute_unmute(mute)
   if mute == 0 then
@@ -160,8 +160,41 @@ function mute_unmute(mute)
   end
   awful.util.spawn(cmd)
 end
-  
 
+function on_click_audio_volume_lower()
+  audio_volume = audio_volume - 5
+  if audio_volume < 0 then
+    audio_volume = 0
+  end
+  audio_volume_set(audio_volume)
+  naughty.notify({ title = "volume down",
+                   timeout = 1,
+                   text = "volume: " ..  audio_volume .. "%"})
+end
+  
+function on_click_audio_volume_raise()
+  audio_volume = audio_volume + 5
+  if audio_volume > 100 then
+    audio_volume = 100
+  end
+  audio_volume_set(audio_volume)
+  naughty.notify({ title = "volume up",
+                   timeout = 1,
+                   text = "volume: " ..  audio_volume .. "%"})
+end
+
+function on_click_audio_volume_mute()
+  if mute == 1 then
+    mute = 0
+    naughty.notify({ title = "UNMUTE",
+                     timeout = 1})
+  else
+    mute = 1
+    naughty.notify({ title = "MUTE",
+                     timeout = 1})
+  end
+  mute_unmute(mute)
+end
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
@@ -200,7 +233,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "e", function () awful.util.spawn("doublecmd") end),
     awful.key({ modkey, "Shift"   }, "c", function () awful.util.spawn(terminal .. " -e 'python -i /home/stelhs/.calc.py'") end),
     awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn(terminal .. " -e 'ping google.com'") end),
-    awful.key({ modkey, "Shift"   }, "m", function () awful.util.spawn("wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/Splan70/splan70.exe\"") end),
+    awful.key({ modkey, "Shift"   }, "m", function () awful.util.spawn("/bin/bash -c 'LANG=ru_RU.UTF8 wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/Splan70/splan70.exe\"'") end),
     awful.key({ modkey, "Shift"   }, "s", function () awful.util.spawn("gnome-screenshot -i") end),
     awful.key({ modkey, "Shift"   }, "d", function () awful.util.spawn("/home/stelhs/.config/awesome/screenshot.sh") end),
     awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("mono /home/stelhs/tools/smath/SMathStudio_Desktop.exe") end),
@@ -217,28 +250,25 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart),
 --    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
     awful.key({ modkey, "Shift"   }, "b", function () awful.util.spawn("subl -n /home/stelhs/docs/subl-notes/notes.txt") end),
-    awful.key({}, "XF86AudioLowerVolume", function () audio_volume = audio_volume - 5
-                                                      if audio_volume < 0 then
-                                                        audio_volume = 0
-                                                       end
-                                                      audio_volume_set(audio_volume) end),
-    awful.key({}, "XF86AudioRaiseVolume", function () audio_volume = audio_volume + 5
-                                                      if audio_volume > 100 then
-                                                        audio_volume = 100
-                                                       end
-                                                      audio_volume_set(audio_volume) end),
-    awful.key({}, "XF86AudioMute", function () if mute == 1 then
-                                                mute = 0
-                                                else mute = 1  
-                                                end                                              
-                                                mute_unmute(mute) end),
+
+    awful.key({}, "XF86AudioLowerVolume", function () on_click_audio_volume_lower() end),
+    awful.key({}, "XF86AudioRaiseVolume", function () on_click_audio_volume_raise() end),
+    awful.key({}, "XF86AudioMute", function () on_click_audio_volume_mute() end),
+    awful.key({ modkey, "Control" }, "z", function () on_click_audio_volume_lower() end),
+    awful.key({ modkey, "Control" }, "x", function () on_click_audio_volume_mute() end),
+    awful.key({ modkey, "Control" }, "c", function () on_click_audio_volume_raise() end),
 
     awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("qmmp --previous") end),
     awful.key({ }, "XF86AudioNext", function () awful.util.spawn("qmmp --next") end),
-    awful.key({ modkey, "Control" }, "c", function () awful.util.spawn("qmmp -t") end),
+    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("qmmp -t") end),
     awful.key({ "Control" }, "XF86AudioPrev", function () awful.util.spawn("qmmp --seek-bwd 5") end),
-    awful.key({ "Control" }, "XF86AudioNext", function () awful.util.spawn("qmmp --seek-fwd 5") end),    
-    
+    awful.key({ "Control" }, "XF86AudioNext", function () awful.util.spawn("qmmp --seek-fwd 5") end),
+    awful.key({ modkey, "Control" }, "q", function () awful.util.spawn("qmmp --previous") end),
+    awful.key({ modkey, "Control" }, "w", function () awful.util.spawn("qmmp -t") end),
+    awful.key({ modkey, "Control" }, "e", function () awful.util.spawn("qmmp --next") end),
+    awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("qmmp --seek-bwd 5") end),
+    awful.key({ modkey, "Control" }, "d", function () awful.util.spawn("qmmp --seek-fwd 5") end),
+
     awful.key({ modkey,           }, "Left",  function () awful.tag.incmwfact(-0.05)    end),
     awful.key({ modkey,           }, "Right", function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "Up",    function () awful.client.incwfact(0.05)  end),
@@ -277,7 +307,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey,           }, "t",      awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
+    awful.key({ modkey,           }, "F1",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "n",
         function (c)
