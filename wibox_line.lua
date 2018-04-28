@@ -116,6 +116,21 @@ vicious.register(tzswidget, vicious.widgets.thermal,
 -- }}}
 
 
+-- Etherium rate
+ethWidget = wibox.widget.textbox()
+vicious.register(ethWidget, 
+    function ()
+      local cmd = "printf '%.*f\n' 1 `curl -s 'https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT' | jq -r '.price'`"
+      local f = io.popen(cmd, 'r')
+      local content = f:read('*a')
+      f:close()
+      return "ETH:" .. content .. "$"
+    end,
+    "$1"
+    , 1, "")
+
+-- }}}
+
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -200,6 +215,9 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+
+    right_layout:add(ethWidget)
+    right_layout:add(separator)
     
     right_layout:add(cpuicon)
     right_layout:add(cpugraph)
