@@ -117,19 +117,62 @@ vicious.register(tzswidget, vicious.widgets.thermal,
 
 
 -- Etherium rate
-ethWidget = wibox.widget.textbox()
-vicious.register(ethWidget, 
-    function ()
-      local cmd = "printf '%.*f\n' 1 `curl -s 'https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT' | jq -r '.price'`"
-      local f = io.popen(cmd, 'r')
-      local content = f:read('*a')
-      f:close()
-      return "ETH:" .. content .. "$"
-    end,
-    "$1"
-    , 1, "")
+-- ethWidget = wibox.widget.textbox()
+-- vicious.register(ethWidget, 
+--    function ()
+--      local f = io.open('/tmp/eth_rate', 'r')
+--      local content = f:read("*all")
+--      f:close()
+--      return "ETH:" .. content
+--    end,
+--    "$1"
+--    , 1, "")
 
 -- }}}
+
+-- BNB rate
+-- bnbWidget = wibox.widget.textbox()
+-- vicious.register(bnbWidget, 
+--    function ()
+--      local f = io.open('/tmp/bnb_rate', 'r')
+--      local content = f:read("*all")
+--      f:close()
+--      return "BNB:" .. content
+--    end,
+--    "$1"
+--    , 1, "")
+
+-- }}}
+
+
+-- ETC rate
+-- etcWidget = wibox.widget.textbox()
+-- vicious.register(etcWidget,
+--    function ()
+--      local f = io.open('/tmp/etc_rate', 'r')
+--      local content = f:read("*all")
+--      f:close()
+--      return "ETC:" .. content
+--    end,
+--    "$1"
+--    , 1, "")
+-- }}}
+
+
+-- BTC rate
+--btcWidget = wibox.widget.textbox()
+--vicious.register(btcWidget,
+--    function ()
+--      local f = io.open('/tmp/btc_rate', 'r')
+--      local content = f:read("*all")
+--      f:close()
+--      return "BTC:" .. content
+--    end,
+--    "$1"
+--    , 1, "")
+
+-- }}}
+
 
 
 -- Create a wibox for each screen and add it
@@ -216,9 +259,18 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
 
-    right_layout:add(ethWidget)
-    right_layout:add(separator)
-    
+--    right_layout:add(btcWidget)
+--    right_layout:add(separator)
+
+--   right_layout:add(ethWidget)
+--    right_layout:add(separator)
+
+--    right_layout:add(etcWidget)
+--    right_layout:add(separator)
+
+--    right_layout:add(bnbWidget)
+--    right_layout:add(separator)
+
     right_layout:add(cpuicon)
     right_layout:add(cpugraph)
     right_layout:add(separator)
