@@ -46,7 +46,7 @@ upicon = wibox.widget.imagebox()
 netwidget = wibox.widget.textbox()
 vicious.register(netwidget, vicious.widgets.net,
     function (widget, args)
-        for _,device in pairs({'eth4', 'wlan1'}) do
+        for _,device in pairs({'enp0s31f6', 'wlp1s0'}) do
             if tonumber(args["{".. device .." carrier}"]) > 0 then
                 netwidget.found = true
                 dnicon:set_image(beautiful.widget_net)

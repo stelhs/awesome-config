@@ -12,7 +12,7 @@ run_once("amixer -q set PCM unmute")
 run_once("amixer -q set Master unmute")
 run_once("amixer -q set 'Speaker Boost' unmute")
 
-run_once("xset r rate 200 60")
+run_once("xset r rate 200 120")
 run_once("nm-applet") -- networking
 
 -- run_once("wmname", "LG3D") -- java fix
