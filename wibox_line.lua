@@ -1,6 +1,38 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local awful = require("awful")
+local gears = require("gears")
+
+-- User libraries
+local vicious = require("vicious") -- ./vicious
+
+-- {{{ Menu
+-- Create a laucher widget and a main menu
+myawesomemenu = {
+   { "manual", terminal .. " -e man awesome" },
+   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "restart", awesome.restart },
+   { "quit", awesome.quit }
+}
+
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "Debian", debian.menu.Debian_menu.Debian },
+                                    { "console", terminal },
+                                    { "calc", "speedcrunch" },
+                                    { "double commander", "doublecmd" },
+                                    { "google-chrome", "google-chrome" },
+                                    { "subl", "subl" },
+                                    { "pinta", "pinta" },
+                                    { "splan", "wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/Splan70/splan70.exe\"" },
+                                    { "diptrace", "wine \"/home/stelhs/.wine/drive_c/Program Files/DipTrace_3_0/Launcher.exe\"" },
+                                    { "eclipse", "/opt/eclipse/eclipse" },
+                            { "eclipse-php", "/opt/eclipse-php/eclipse" },
+                                  }
+                        })
+
+
+mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+                                     menu = mymainmenu })
 
 -- {{{ Wibox
 
@@ -21,8 +53,11 @@ volicon:set_image(beautiful.widget_vol)
 volbar    = awful.widget.progressbar()
 volwidget = wibox.widget.textbox()
 -- Progressbar properties
-volbar:set_vertical(true):set_ticks(true)
-volbar:set_height(16):set_width(5):set_ticks_size(2)
+volbar:set_vertical(true)
+volbar:set_ticks(true)
+volbar:set_height(16)
+volbar:set_width(5)
+volbar:set_ticks_size(2)
 volbar:set_background_color(beautiful.fg_off_widget)
 --volbar:set_gradient_colors({ beautiful.fg_widget,
 --   beautiful.fg_center_widget, beautiful.fg_end_widget
@@ -35,26 +70,24 @@ vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "PCM")
 
 -- {{{ Network usage
 function print_net(name, down, up)
-    return '<span color="'
-    .. beautiful.fg_netdn_widget ..'">' .. down .. '</span> <span color="'
-    .. beautiful.fg_netup_widget ..'">' .. up  .. '</span>'
+    return '<span color="gray">' .. down .. '</span> <span color="white">' .. up  .. '</span>'
 end
 
 dnicon = wibox.widget.imagebox()
 upicon = wibox.widget.imagebox()
 
 netwidget = wibox.widget.textbox()
-vicious.register(netwidget, vicious.widgets.net,
-    function (widget, args)
-        for _,device in pairs({'enp0s31f6', 'wlp1s0'}) do
-            if tonumber(args["{".. device .." carrier}"]) > 0 then
-                netwidget.found = true
-                dnicon:set_image(beautiful.widget_net)
-                upicon:set_image(beautiful.widget_netup)
-                return print_net(device, args["{"..device .." down_kb}"], args["{"..device.." up_kb}"])
-            end
-        end
-    end, 3)
+--vicious.register(netwidget, vicious.widgets.net,
+--    function (widget, args)
+--        for _,device in pairs({'enp4s0', 'wlp5s0'}) do
+--            if tonumber(args["{".. device .." carrier}"]) > 0 then
+--                netwidget.found = true
+--                dnicon:set_image(beautiful.widget_net)
+--                upicon:set_image(beautiful.widget_netup)
+--                return print_net(device, args["{"..device .." down_kb}"], args["{"..device.." up_kb}"])
+--            end
+--        end
+--    end, 3)
 -- }}}
 
 -- {{{ Memory usage
@@ -108,7 +141,7 @@ vicious.register(tzswidget, vicious.widgets.thermal,
         if args[1] > 0 then
             tzfound = true
             return " " .. args[1] .. "C°"
-        else return "" 
+        else return ""
         end
     end
     , 19, "thermal_zone0")
@@ -118,7 +151,7 @@ vicious.register(tzswidget, vicious.widgets.thermal,
 
 -- Etherium rate
 -- ethWidget = wibox.widget.textbox()
--- vicious.register(ethWidget, 
+-- vicious.register(ethWidget,
 --    function ()
 --      local f = io.open('/tmp/eth_rate', 'r')
 --      local content = f:read("*all")
@@ -132,7 +165,7 @@ vicious.register(tzswidget, vicious.widgets.thermal,
 
 -- BNB rate
 -- bnbWidget = wibox.widget.textbox()
--- vicious.register(bnbWidget, 
+-- vicious.register(bnbWidget,
 --    function ()
 --      local f = io.open('/tmp/bnb_rate', 'r')
 --      local content = f:read("*all")
@@ -225,91 +258,78 @@ mytasklist.buttons = awful.util.table.join(
                                               if client.focus then client.focus:raise() end
                                           end))
 
-for s = 1, screen.count() do
+awful.screen.connect_for_each_screen(function(s)
+      -- Each screen has its own tag table.
+  --  awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+
+
     -- Create a promptbox for each screen
-    mypromptbox[s] = awful.widget.prompt()
+    s.mypromptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
-    mylayoutbox[s] = awful.widget.layoutbox(s)
-    mylayoutbox[s]:buttons(awful.util.table.join(
-                           awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-                           awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
+    s.mylayoutbox = awful.widget.layoutbox(s)
+    s.mylayoutbox:buttons(gears.table.join(
+                           awful.button({ }, 1, function () awful.layout.inc( 1) end),
+                           awful.button({ }, 3, function () awful.layout.inc(-1) end),
+                           awful.button({ }, 4, function () awful.layout.inc( 1) end),
+                           awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
 
     -- Create a tasklist widget
-    mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.focused, mytasklist.buttons)
+    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ screen = s,
+    s.mywibox = awful.wibar({ screen = s,
             fg = beautiful.fg_normal, height = 14,
             bg = beautiful.bg_normal, position = "top",
             border_color = beautiful.border_normal,
             border_width = beautiful.border_width
         })
 
-    -- Widgets that are aligned to the left
-    local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mylauncher)
-    left_layout:add(mytaglist[s])
-    left_layout:add(mypromptbox[s])
+    s.mywibox:setup {
+        layout = wibox.layout.align.horizontal,
+        { -- Left widgets
+            layout = wibox.layout.fixed.horizontal,
+            mylauncher,
+            s.mytaglist,
+            s.mypromptbox,
+        },
+        s.mytasklist, -- Middle widget
+        { -- Right widgets
+            layout = wibox.layout.fixed.horizontal,
+            cpuicon,
+            cpugraph,
+            separator,
 
-    -- Widgets that are aligned to the right
-    local right_layout = wibox.layout.fixed.horizontal()
+            tzfound and tzswidget or nil,
+            separator,
 
---    right_layout:add(btcWidget)
---    right_layout:add(separator)
+            memicon,
+            memtext,
+            separator,
 
---   right_layout:add(ethWidget)
---    right_layout:add(separator)
+            dnicon or nil,
+            netwidget,
+            upicon,
+            separator,
 
---    right_layout:add(etcWidget)
---    right_layout:add(separator)
+            volicon,
+            volbar,
+            volwidget,
+            separator,
 
---    right_layout:add(bnbWidget)
---    right_layout:add(separator)
+            baticon or nil,
+            batwidget,
+            separator,
 
-    right_layout:add(cpuicon)
-    right_layout:add(cpugraph)
-    right_layout:add(separator)
-
-    right_layout:add(tzfound and tzswidget or nil)
-    right_layout:add(separator)
-
-    right_layout:add(memicon)
-    right_layout:add(memtext)
-    right_layout:add(separator)
-
-
-    right_layout:add(dnicon or nil)
-    right_layout:add(netwidget)
-    right_layout:add(upicon)
-    right_layout:add(separator)
-
-    right_layout:add(volicon)
-    right_layout:add(volbar)
-    right_layout:add(volwidget)
-    right_layout:add(separator)
-
-    right_layout:add(baticon or nil)
-    right_layout:add(batwidget)
-    right_layout:add(separator)
-
-    right_layout:add(dateicon)
-    right_layout:add(datewidget)
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
+            dateicon,
+            datewidget,
+            wibox.widget.systray(),
+        },
+    }
 
 
---    right_layout:add(mylayoutbox[s])
-
-    -- Now bring it all together (with the tasklist in the middle)
-    local layout = wibox.layout.align.horizontal()
-    layout:set_left(left_layout)
-    layout:set_middle(mytasklist[s])
-    layout:set_right(right_layout)
-
-    mywibox[s]:set_widget(layout)
-end
+end)
 -- }}}

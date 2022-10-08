@@ -1,4 +1,4 @@
--- run_once("xscreensaver", "-no-splash")         -- starts screensaver daemon 
+-- run_once("xscreensaver", "-no-splash")         -- starts screensaver daemon
 -- run_once("xsetroot", "-cursor_name left_ptr")  -- sets the cursor icon
 
 --run_once("redshift", "-o -l 0:0 -b 0.5 -t 6500:6500") -- brightness
@@ -12,8 +12,9 @@ run_once("amixer -q set PCM unmute")
 run_once("amixer -q set Master unmute")
 run_once("amixer -q set 'Speaker Boost' unmute")
 
-run_once("xset r rate 200 120")
+run_once("xset r rate 200 180")
 run_once("nm-applet") -- networking
+run_once("blueman-applet")
 
 -- run_once("wmname", "LG3D") -- java fix
 
@@ -33,13 +34,12 @@ run_once("parcellite")
 --run_once("setxkbmap", "-layout 'us,ru' -option grp:shift_caps_switch,grp_led:caps")
 --run_once("awsetbg /home/dg/Pictures/Wallpaper/Savannah_Lilian_Blot_by_a_Blot_on_the_landscape.jpg")
 --run_once("goldendict")
-run_once("skype")
-run_once("/opt/telegram/Telegram")
+run_once("/opt/Telegra/Telegram")
 --run_once("firefox", nil, nil, 1)
 run_once("qmmp")
+run_once("xautolock -time 10 -locker slock &")
 --run_once("/home/stelhs/.config/awesome/eth_rate.sh &")
 --run_once("/home/stelhs/.config/awesome/bnb_rate.sh &")
 --run_once("/home/stelhs/.config/awesome/etc_rate.sh &")
 --run_once("/home/stelhs/.config/awesome/btc_rate.sh &")
-run_once("gromit-mpx")
 

@@ -12,9 +12,6 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 require('helpers')
 
--- User libraries
-local vicious = require("vicious") -- ./vicious
-
 -- Load Debian menu entries
 require("debian.menu")
 
@@ -45,7 +42,10 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init("/usr/share/awesome/themes/zhongguo/zhongguo.lua")
+-- beautiful.init("/usr/share/awesome/themes/zhongguo/zhongguo.lua")
+beautiful.init(gears.filesystem.get_themes_dir() .. "zhongguo/zhongguo.lua")
+
+-- naughty.notify({ text = "HELLO!", timeout = 10, fg = "#00ff00", font = "Terminus 12" })
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -78,11 +78,11 @@ local layouts =
 -- }}}
 
 -- {{{ Wallpaper
-if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    end
-end
+--if beautiful.wallpaper then
+--    for s = 1, screen.count() do
+--        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+--    end
+--end
 -- }}}
 
 -- {{{ Tags
@@ -94,37 +94,16 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- {{{ Menu
--- Create a laucher widget and a main menu
-myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
-}
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
-                                    { "console", terminal },
-                                    { "calc", "speedcrunch" },
-                                    { "double commander", "doublecmd" },
-                                    { "google-chrome", "google-chrome" },
-                                    { "subl", "subl" },
-                                    { "pinta", "pinta" },
-                                    { "splan", "wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/Splan70/splan70.exe\"" },
-                                    { "diptrace", "wine \"/home/stelhs/.wine/drive_c/Program Files/DipTrace_3_0/Launcher.exe\"" },
-                                    { "eclipse", "/opt/eclipse/eclipse" },
-                            { "eclipse-php", "/opt/eclipse-php/eclipse" },
-                                  }
-                        })
-
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
+
+
+
+
+
 
 
 require('wibox_line')
@@ -142,7 +121,8 @@ audio_volume = 50
 mute = 0;
 
 function audio_volume_set(audio_volume)
-  cmd = "amixer -q set Master " .. audio_volume .. "%"
+--  cmd = "amixer -q set Master " .. audio_volume .. "%"
+  cmd = "pactl set-sink-volume @DEFAULT_SINK@ " .. audio_volume .. "%"
    awful.util.spawn(cmd)
   awful.util.spawn("amixer -q set Speaker 100%")
   awful.util.spawn("amixer -q set 'Bass Speaker' 100%")
@@ -150,12 +130,13 @@ function audio_volume_set(audio_volume)
   awful.util.spawn("amixer -q set 'Mic Boost' 100%")
 end
 
+
 function mute_unmute(mute)
   if mute == 0 then
     cmd = "amixer -q set Master unmute"
     awful.util.spawn("amixer -q set Speaker unmute")
     awful.util.spawn("amixer -q set 'Bass Speaker' unmute")
-  else 
+  else
     cmd = "amixer -q set Master mute"
   end
   awful.util.spawn(cmd)
@@ -171,7 +152,7 @@ function on_click_audio_volume_lower()
                    timeout = 1,
                    text = "volume: " ..  audio_volume .. "%"})
 end
-  
+
 function on_click_audio_volume_raise()
   audio_volume = audio_volume + 5
   if audio_volume > 100 then
@@ -235,14 +216,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn(terminal .. " -e 'ping google.com'") end),
     awful.key({ modkey, "Shift"   }, "s", function () awful.util.spawn("gnome-screenshot -i") end),
     awful.key({ modkey, "Shift"   }, "d", function () awful.util.spawn("/home/stelhs/.config/awesome/screenshot.sh") end),
-    awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("mono /home/stelhs/tools/smath/SMathStudio_Desktop.exe") end),
 --    awful.key({ modkey, "Shift"   }, "m", function () awful.util.spawn("/bin/bash -c 'LANG=ru_RU.UTF8 wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/Splan70/splan70.exe\"'") end),
     awful.key({ modkey, "Shift"   }, "m", function () awful.util.spawn("/bin/bash -c '/home/stelhs/projects/software/my/electro/electro.py'") end),
     awful.key({ modkey,           }, "h", function () awful.util.spawn("/home/stelhs/.config/awesome/display_switcher.sh") end),
     awful.key({ modkey,           }, "F6", function () awful.util.spawn("synclient TouchpadOff=1") end),
     awful.key({ modkey, "Shift"   }, "F6", function () awful.util.spawn("synclient TouchpadOff=0") end),
     awful.key({ modkey,           }, "F2", function () awful.util.spawn("xcalib -i -a") end),
-    awful.key({ modkey,           }, "F3", function () awful.util.spawn("vlc /home/stelhs/Music/buzzer.ogg.m3u") end),
 --    awful.key({ modkey, "Shift"   }, "f", function () awful.util.spawn("google-chrome --disable-gpu-driver-bug-workarounds --enable-native-gpu-memory-buffers") end),
     awful.key({ modkey, "Shift"   }, "f", function () awful.util.spawn("google-chrome") end),
     awful.key({ modkey,           }, ",", function () awful.util.spawn("xbacklight -dec 10") end),
@@ -280,10 +259,11 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, altkey    }, "Down",  function () awful.client.moveresize(  0,  20,   0,   0) end),
     awful.key({ modkey, altkey    }, "Up",    function () awful.client.moveresize(  0, -20,   0,   0) end),
     awful.key({ modkey, altkey    }, "Left",  function () awful.client.moveresize(-20,   0,   0,   0) end),
-    awful.key({ modkey, altkey    }, "Right", function () awful.client.moveresize( 20,   0,   0,   0) end),    
+    awful.key({ modkey, altkey    }, "Right", function () awful.client.moveresize( 20,   0,   0,   0) end),
     awful.key({ modkey,           }, "a",     function () awful.tag.incnmaster( 1)      end),
     awful.key({ modkey,           }, "s",     function () awful.tag.incnmaster(-1)      end),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
+    awful.key({ modkey, "Control" }, "p",     function () awful.util.spawn("pavucontrol") end),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
@@ -291,7 +271,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey },            "r",     function ()  awful.screen.focused().mypromptbox:run() end),
 
     awful.key({ modkey }, "x",
               function ()
@@ -388,18 +368,18 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      raise = true,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
-    { rule = { class = "ROX-Filer" },   properties = { floating = true } },
-    { rule = { class = "Plugin-container" },   properties = { floating = true, border_width = 0 } },
-    { rule = { class = "Chromium-browser" },   properties = { floating = false } },
-    { rule = { class = "Google-chrome" },   properties = { floating = false } },
---    { rule = { class = "Firefox" },   properties = { floating = false, tag = tags[1][2] } },
-    { rule = { class = "Skype" },   properties = { floating = false, tag = tags[1][1] } },
-    { rule = { class = "Qmmp" },   properties = { floating = true, tag = tags[1][6] } },
-    { rule = { class = "Firefox", instance = "startup" }, properties = { floating = false, tag = tags[1][2]} },s
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+                     buttons = clientbuttons,
+                     screen = awful.screen.preferred,
+                     maximized = false,
+                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+                    },
+
+    -- Add titlebars to normal clients and dialogs
+    { rule_any = {type = { "normal", "dialog" }
+      }, properties = { titlebars_enabled = true }
+    },
+
+    },
 }
 -- }}}
 
@@ -476,6 +456,15 @@ client.connect_signal("manage", function (c, startup)
         layout:set_middle(middle_layout)
 
         awful.titlebar(c):set_widget(layout)
+    end
+end)
+
+
+-- Enable sloppy focus, so that focus follows mouse.
+client.connect_signal("mouse::enter", function(c)
+    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+        and awful.client.focus.filter(c) then
+        client.focus = c
     end
 end)
 

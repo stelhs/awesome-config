@@ -17,7 +17,7 @@ wallpapers_timer:connect_signal("timeout", function()
 end)
 wallpapers_timer:start()
 
-function wallpapers_update()  
+function wallpapers_update()
   os.execute("/home/stelhs/.config/awesome/wallpaper_random.php update")
   wallpapers_timer:stop()
   wallpapers_timer.timeout = math.random( 600, 1200)
