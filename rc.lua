@@ -43,7 +43,7 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 -- beautiful.init("/usr/share/awesome/themes/zhongguo/zhongguo.lua")
-beautiful.init(gears.filesystem.get_themes_dir() .. "zhongguo/zhongguo.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/zhongguo/zhongguo.lua")
 
 -- naughty.notify({ text = "HELLO!", timeout = 10, fg = "#00ff00", font = "Terminus 12" })
 
