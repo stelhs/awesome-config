@@ -219,6 +219,7 @@ globalkeys = awful.util.table.join(
 --    awful.key({ modkey, "Shift"   }, "m", function () awful.util.spawn("/bin/bash -c 'LANG=ru_RU.UTF8 wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/Splan70/splan70.exe\"'") end),
     awful.key({ modkey, "Shift"   }, "m", function () awful.util.spawn("/bin/bash -c '/home/stelhs/projects/software/my/electro/electro.py'") end),
     awful.key({ modkey,           }, "h", function () awful.util.spawn("/home/stelhs/.config/awesome/display_switcher.sh") end),
+    awful.key({ modkey,           }, "l", function () awful.util.spawn("slock") end),
     awful.key({ modkey,           }, "F6", function () awful.util.spawn("synclient TouchpadOff=1") end),
     awful.key({ modkey, "Shift"   }, "F6", function () awful.util.spawn("synclient TouchpadOff=0") end),
     awful.key({ modkey,           }, "F2", function () awful.util.spawn("xcalib -i -a") end),
