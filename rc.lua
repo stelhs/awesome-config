@@ -212,13 +212,12 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "e", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "e", function () awful.util.spawn("doublecmd") end),
-    awful.key({ modkey, "Shift"   }, "c", function () awful.util.spawn(terminal .. " -e 'python3 -i /home/stelhs/.calc.py'") end),
+    awful.key({ modkey, "Shift"   }, "c", function () awful.util.spawn(terminal .. " -e 'python3 -i ~/.calc.py'") end),
     awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn(terminal .. " -e 'ping google.com'") end),
     awful.key({ modkey, "Shift"   }, "s", function () awful.util.spawn("gnome-screenshot -i") end),
-    awful.key({ modkey, "Shift"   }, "d", function () awful.util.spawn("/home/stelhs/.config/awesome/screenshot.sh") end),
---    awful.key({ modkey, "Shift"   }, "m", function () awful.util.spawn("/bin/bash -c 'LANG=ru_RU.UTF8 wine \"/home/stelhs/.wine/drive_c/Program Files (x86)/Splan70/splan70.exe\"'") end),
+    awful.key({ modkey, "Shift"   }, "d", function () awful.util.spawn("~/.config/awesome/screenshot.sh") end),
     awful.key({ modkey, "Shift"   }, "m", function () awful.util.spawn("/bin/bash -c '/home/stelhs/projects/software/my/electro/electro.py'") end),
-    awful.key({ modkey,           }, "h", function () awful.util.spawn("/home/stelhs/.config/awesome/display_switcher.sh") end),
+    awful.key({ modkey,           }, "h", function () awful.util.spawn("~/.config/awesome/display_switcher.sh") end),
     awful.key({ modkey,           }, "l", function () awful.util.spawn("slock") end),
     awful.key({ modkey,           }, "F6", function () awful.util.spawn("synclient TouchpadOff=1") end),
     awful.key({ modkey, "Shift"   }, "F6", function () awful.util.spawn("synclient TouchpadOff=0") end),
@@ -231,7 +230,7 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey, "Control" }, "r", awesome.restart),
 --    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
-    awful.key({ modkey, "Shift"   }, "b", function () awful.util.spawn("subl -n /home/stelhs/docs/subl-notes/notes.txt") end),
+    awful.key({ modkey, "Shift"   }, "b", function () awful.util.spawn("subl -n ~/notes.txt") end),
 
     awful.key({}, "XF86AudioLowerVolume", function () on_click_audio_volume_lower() end),
     awful.key({}, "XF86AudioRaiseVolume", function () on_click_audio_volume_raise() end),
